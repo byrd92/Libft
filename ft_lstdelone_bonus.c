@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/08 13:15:56 by egarcia-          #+#    #+#             */
-/*   Updated: 2019/11/08 13:17:01 by egarcia-         ###   ########.fr       */
+/*   Created: 2019/11/14 17:36:56 by egarcia-          #+#    #+#             */
+/*   Updated: 2019/11/19 19:29:23 by egarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+void	ft_lstdelone(t_list *lst, void (*del)(void*))
 {
-	int num;
-	int neg;
-
-	num = 0;
-	neg = 0;
-	while ((*str >= 9 && *str <= 13) || *str == 32)
-		str++;
-	if (!(*str >= '0' && *str <= '9') && *str != '-' && *str != '+')
-		return (0);
-	if (*str == '-' || *str == '+')
+	if (lst && del)
 	{
-		if (*str == '-')
-			neg = 1;
-		str++;
+		del(lst->content);
+		free(lst);
+		lst = NULL;
 	}
-	while (*str >= '0' && *str <= '9')
-	{
-		num = num * 10 + *str - '0';
-		str++;
-	}
-	if (neg == 1)
-		num = num * -1;
-	return (num);
 }

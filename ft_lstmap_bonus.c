@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/08 15:32:14 by egarcia-          #+#    #+#             */
-/*   Updated: 2019/11/08 15:32:37 by egarcia-         ###   ########.fr       */
+/*   Created: 2019/11/14 18:57:20 by egarcia-          #+#    #+#             */
+/*   Updated: 2019/11/15 14:01:25 by egarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	char *ptr;
+	t_list *list;
+	t_list *new;
 
-	if ((ptr = (char*)malloc(ft_strlen(s) + 1 * sizeof(char))) == NULL)
-		return (NULL);
-	ptr = ft_memcpy(ptr, s, ft_strlen(s));
-	ptr[ft_strlen(s)] = 0;
-	return (ptr);
+	list = NULL;
+	if (lst && f)
+	{
+		list = ft_lstnew(f(lst->content));
+		lst = lst->next;
+		while (lst)
+		{
+			if (!(new = ft_lstnew(f(lst->content))))
+			{
+				ft_lstdelone(list, del);
+				return (NULL);
+			}
+			ft_lstadd_back(&list, new);
+			lst = lst->next;
+		}
+		return (list);
+	}
+	return (NULL);
 }

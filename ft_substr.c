@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/08 16:43:28 by egarcia-          #+#    #+#             */
-/*   Updated: 2019/11/08 16:43:52 by egarcia-         ###   ########.fr       */
+/*   Created: 2019/11/12 16:57:17 by egarcia-          #+#    #+#             */
+/*   Updated: 2019/11/19 19:04:07 by egarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	unsigned int i;
-	unsigned int k;
+	char			*str;
+	unsigned int	i;
 
 	i = 0;
-	k = 0;
-	while (src[k])
-		k++;
-	if (size == 0)
-		return (k);
-	while (i < (size - 1) && src[i])
+	if (s && (int)len > -1)
 	{
-		dest[i] = src[i];
-		i++;
+		if (!(str = malloc(((int)len + 1) * sizeof(char))))
+			return (NULL);
+		ft_bzero(str, len);
+		if (start <= ft_strlen(s))
+			ft_strlcpy(str, s + start, len + 1);
+		return (str);
 	}
-	if (i < size)
-		dest[i] = '\0';
-	return (k);
+	return (0);
 }
